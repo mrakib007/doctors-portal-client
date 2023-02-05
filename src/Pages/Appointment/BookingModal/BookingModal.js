@@ -4,7 +4,7 @@ import { toast } from "react-hot-toast";
 import { AuthContext } from "../../../contexts/AuthProvider";
 
 const BookingModal = ({ treatment, selectedDate,setTreatment }) => {
-  const { name, slots } = treatment; //treatment is appointment options just different name here.
+  const { name: treatmentName, slots } = treatment; //treatment is appointment options just different name here.
   const date = format(selectedDate, "PP");
   const {user} = useContext(AuthContext);
 
@@ -18,7 +18,7 @@ const BookingModal = ({ treatment, selectedDate,setTreatment }) => {
     
     const booking = {
       appointmentDate: date,
-      treatment: name,
+      treatment: treatmentName,
       // name: name,
       patient: name,
       slot,
@@ -55,7 +55,7 @@ const BookingModal = ({ treatment, selectedDate,setTreatment }) => {
           >
             ✕
           </label>
-          <h3 className="text-lg font-bold">{name}</h3>
+          <h3 className="text-lg font-bold">{treatmentName}</h3>
           <form onSubmit={handleBooking} className="grid grid-cols-1 gap-3 mt-10" action="">
             <input
               type="text"
