@@ -39,6 +39,7 @@ const SignUp = () => {
     }
 
     const handleGoogleSingIn = () =>{
+      setSignUpError('');
       providerLogin(googleProvider)
       .then(result =>{
         const user = result.user;
@@ -46,7 +47,10 @@ const SignUp = () => {
         console.log(user);
         navigate(from,{replace: true});
       })
-      .catch(error=> console.log(error));
+      .catch(error=> {
+        console.log(error);
+        setSignUpError(error.message);
+      });
     }
 
     return (
