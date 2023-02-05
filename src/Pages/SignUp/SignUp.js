@@ -42,6 +42,7 @@ const SignUp = () => {
       providerLogin(googleProvider)
       .then(result =>{
         const user = result.user;
+        toast('User Created Successfully');
         console.log(user);
         navigate(from,{replace: true});
       })
