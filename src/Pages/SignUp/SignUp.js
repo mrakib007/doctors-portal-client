@@ -27,7 +27,9 @@ const SignUp = () => {
               displayName: data.name
             }
             updateUser(userInfo)
-            .then(()=>{})
+            .then(()=>{
+              navigate(from,{replace: true});
+            })
             .catch(error => console.log(error));
         })
         .catch(error=> {
