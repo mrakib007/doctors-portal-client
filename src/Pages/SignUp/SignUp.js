@@ -4,16 +4,25 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
+import useToken from '../../hooks/useToken';
 
 const SignUp = () => {
     const {register,handleSubmit,formState:{errors}} = useForm();
     const {createUser,updateUser,providerLogin} = useContext(AuthContext);
-    const [signUpError,setSignUpError] = useState(null);
+    const [signUpError,setSignUpError] = useState('');
     const googleProvider = new GoogleAuthProvider();
     const location = useLocation();
     const navigate = useNavigate();
 
     const from = location.state?.from?.pathname || '/';
+
+    const [createdUserEmail, setCreatedUserEmail] = useState('');
+    const [token] = useToken(createdUserEmail);
+
+    if(token){
+      navigate(from,{replace: true});
+    }
+
 
     const handleSignUp = (data) =>{
       setSignUpError('');
@@ -50,20 +59,20 @@ const SignUp = () => {
       .then(res => res.json())
       .then(data =>{
         console.log('from saveUser function',data);
-        getUserToken(email);
+        setCreatedUserEmail(email);
       })
     }
 
-    const getUserToken = email =>{
-      fetch(`http://localhost:5000/jwt?email=${email}`)
-      .then(res=>res.json())
-      .then(data=>{
-        if(data.accessToken){
-          localStorage.setItem('accessToken',data.accessToken);
-          navigate(from,{replace: true});
-        }
-      })
-    }
+    // const getUserToken = email =>{
+    //   fetch(`http://localhost:5000/jwt?email=${email}`)
+    //   .then(res=>res.json())
+    //   .then(data=>{
+    //     if(data.accessToken){
+    //       localStorage.setItem('accessToken',data.accessToken);
+    //       navigate(from,{replace: true});
+    //     }
+    //   })
+    // }
 
     const handleGoogleSingIn = () =>{
       setSignUpError('');
@@ -72,7 +81,8 @@ const SignUp = () => {
         const user = result.user;
         toast('User Created Successfully');
         console.log(user);
-        navigate(from,{replace: true});
+        saveUser(user.displayName,user.email);
+        // navigate(from,{replace: true});
       })
       .catch(error=> {
         console.log(error);
