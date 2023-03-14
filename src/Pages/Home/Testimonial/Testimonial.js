@@ -36,10 +36,11 @@ const Testimonial = () => {
                     <h4 className='text-xl text-primary font-bold'>Testimonial</h4>
                     <h2 className='text-4xl'>What Our Patients Say</h2>
                 </div>
-            </div>
-            <div>
+                <div>
                 <img className='w-24 lg:w-48 ' src={quote} alt="" srcset="" />
             </div>
+            </div>
+            
             <div className='grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
                 {
                     reviews.map(review => <Review
